@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+
 const SALT_ROUNDS = 10;
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 const UserSchema = new Schema({
   username: { type: String },
   email: { type: String },
-	password: { type: String },
-	images: [{ type: String }]
-})
+  password: { type: String },
+  images: [{ type: String }],
+});
 
 UserSchema.pre('save', function(next) {
-  if(this.password) {
+  if (this.password) {
     this.password = bcrypt.hashSync(this.password, SALT_ROUNDS);
     next();
   } else {

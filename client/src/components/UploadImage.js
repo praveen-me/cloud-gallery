@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import imgActions from "../actions/image.action";
-import keys from "../key";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import imgActions from '../actions/image.action';
+import keys from '../key';
 
 const UploadImage = ({ history }) => {
   const [image, setImage] = useState(null);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   const handleFile = event => {
@@ -33,7 +33,7 @@ const UploadImage = ({ history }) => {
           dispatch(
             imgActions.uploadImage(img.secure_url, done => {
               if (done) {
-                history.push("/");
+                history.push('/');
               }
             })
           );
@@ -50,7 +50,8 @@ const UploadImage = ({ history }) => {
         action=""
         method="post"
         encType="multipart/form-data"
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+      >
         <input type="file" name="image" onChange={handleFile} />
         <div className="signup-btn-wrapper">
           <input type="submit" value="Submit" />

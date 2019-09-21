@@ -1,14 +1,15 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
-var userController = require('./../controllers/userController');
+const router = express.Router();
+
+const userController = require('./../controllers/userController');
 const isLoggedIn = require('./../controllers/authController').isLogged;
 
 // Create new user route
-router.post('/register', userController.register)
+router.post('/register', userController.register);
 
 // user login route
-router.post('/login', userController.login)
+router.post('/login', userController.login);
 
 // verifying user route
 router.get('/verify', userController.verifyUser);

@@ -1,47 +1,44 @@
-import React, { Component, useState } from "react";
-import { connect, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import actions from "../actions/user.action";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import actions from '../actions/user.action';
 
 const Signup = ({ history }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const dispatch = useDispatch();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleChange = ({ target: { name, value } }) => {
-    if (name === "email") {
+    if (name === 'email') {
       setEmail(value);
-    } else if (name === "password") {
+    } else if (name === 'password') {
       setPassword(value);
-    } else if (name === "message") {
+    } else if (name === 'message') {
       setMessage(value);
     } else {
       setUsername(value);
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const data = { username, email, password };
     if (!username || !email || !password) {
       setMessage({
-        message: "Input your credentials :)"
+        message: 'Input your credentials :)',
       });
       return;
     }
-    dispatch(
-      actions.createUser(data, success => {
-        if (success) {
-          history.push("/login");
-        } else {
-          setMessage({
-            message: "Internal server error"
-          });
-        }
-      })
-    );
+
+    actions.createUser(data, (success) => {
+      if (success) {
+        history.push('/login');
+      } else {
+        setMessage({
+          message: 'Internal server error',
+        });
+      }
+    });
   };
 
   return (
@@ -72,7 +69,9 @@ const Signup = ({ history }) => {
           <input type="submit" value="Signup" />
         </div>
         <div className="signup-info">
-          Already an account? <Link to="/login">Login</Link>
+          Already an account?
+          {' '}
+          <Link to="/login">Login</Link>
         </div>
         <div className="message">{message.message}</div>
       </form>

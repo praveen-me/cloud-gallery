@@ -1,40 +1,40 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import actions from "../actions/user.action";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import actions from '../actions/user.action';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   const handleChange = ({ target: { name, value } }) => {
-    if (name === "email") {
+    if (name === 'email') {
       setEmail(value);
-    } else if (name === "password") {
+    } else if (name === 'password') {
       setPassword(value);
     } else {
       setMessage(value);
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const data = { email, password };
 
     if (!email || !password) {
       return setMessage({
-        message: "Input your credentials :)"
+        message: 'Input your credentials :)',
       });
     }
     dispatch(
-      actions.loginUser(data, success => {
+      actions.loginUser(data, (success) => {
         if (success) {
-          window.location.href = "/";
+          window.location.href = '/';
         } else {
           setMessage({
-            message: "User not found"
+            message: 'User not found',
           });
         }
       })
@@ -62,7 +62,9 @@ const Login = () => {
           <input type="submit" value="Login" />
         </div>
         <div className="signup-info">
-          Need an account? <Link to="/register">Signup</Link>
+          Need an account?
+          {' '}
+          <Link to="/register">Signup</Link>
         </div>
         <div className="message">{message.message}</div>
       </form>

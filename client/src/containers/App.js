@@ -1,27 +1,31 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { withRouter } from "react-router-dom";
-import Protected from "./Protected";
-import Public from "./Public";
-import actions from "../actions/user.action";
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Protected from './Protected';
+import Public from './Public';
+import actions from '../actions/user.action';
 
 const App = () => {
   const isAuthenticated = useSelector(
-    state => state.userReducer.isAuthenticated
+    (state) => state.userReducer.isAuthenticated
   );
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAuthenticated) {
-      dispatch(
-        actions.verifyUser((success, message) => {
-          if (!success) {
-            window.location.href = "/login";
-          }
-        })
-      );
+      actions.verifyUser((success) => {
+        if (!success) {
+          window.location.href = '/login';
+        }
+      });
+    } else {
+      if (window.location.href.includes('login')) {
+        return;
+      }
+      window.location.href = '/login';
+      // eslint-disable-next-line no-useless-return
+      return;
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   return isAuthenticated ? <Protected /> : <Public />;
 };

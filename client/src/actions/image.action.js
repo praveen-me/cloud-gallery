@@ -1,18 +1,18 @@
-import keys from "../key";
+import keys from '../key';
 
 const imgActions = {
   // making request to server with image url which I am getting from cloudinary
-  uploadImage: (data, cb) => dispatch => {
-    fetch("/image/upload", {
-      method: "POST",
+  uploadImage: (data, cb) => (dispatch) => {
+    fetch('/image/upload', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        authorization: localStorage.token
+        'Content-Type': 'application/json',
+        authorization: localStorage.token,
       },
-      body: JSON.stringify({ image: data })
+      body: JSON.stringify({ image: data }),
     })
-      .then(res => res.json())
-      .then(image => {
+      .then((res) => res.json())
+      .then((image) => {
         if (image.msg) {
           cb(true);
         } else {
@@ -22,16 +22,16 @@ const imgActions = {
   },
 
   // Uploading image to cloudinary
-  cloudinaryImgUpload: (data, cb) => dispatch => {
+  cloudinaryImgUpload: (data, cb) => (dispatch) => {
     fetch(keys.IMAGE_UPLOAD_URL, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(image => {
+      .then((res) => res.json())
+      .then((image) => {
         if (!image.error) {
           cb(true, image);
         } else {
@@ -41,23 +41,23 @@ const imgActions = {
   },
 
   // getting image from db in this fn
-  getImage: () => dispatch => {
-    fetch("/image/getimage", {
+  getImage: () => (dispatch) => {
+    fetch('/image/getimage', {
       headers: {
-        "Content-Type": "application/json",
-        authorization: localStorage.token
-      }
+        'Content-Type': 'application/json',
+        authorization: localStorage.token,
+      },
     })
-      .then(res => res.json())
-      .then(image => {
+      .then((res) => res.json())
+      .then((image) => {
         if (image.msg) {
           dispatch({
-            type: "GET_IMAGE_SUCCESS",
-            image: image.image
+            type: 'GET_IMAGE_SUCCESS',
+            image: image.image,
           });
         }
       });
-  }
+  },
 };
 
 export default imgActions;

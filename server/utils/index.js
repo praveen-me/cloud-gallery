@@ -1,6 +1,6 @@
-const dbuser = process.env.dbuser;
-const dbpassword = process.env.dbpassword;
+const { dbuser } = process.env;
+const { dbpassword } = process.env;
 
-const MONGOB_URI = process.env.MONGOB_URI;
+const { MONGOB_URI } = process.env;
 
 module.exports = MONGOB_URI;

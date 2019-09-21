@@ -1,67 +1,71 @@
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const path = require("path");
-const http = require("http");
-const expressStaticGzip = require("express-static-gzip");
+const express = require('express');
 
-require("dotenv").config();
+const app = express();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const path = require('path');
+const expressStaticGzip = require('express-static-gzip');
+
+require('dotenv').config();
 
 const port = 3001 || process.env.PORT;
 
-mongoose.connect(process.env.MONGOB_URI, { useNewUrlParser: true });
-// On successfull connection
-mongoose.connection.on("connected", () => {
-  console.log("Connected to Atlas Database");
-});
-// In case of error
-mongoose.connection.on("error", e => {
-  console.log("Error: ");
-});
+// Connecting to mongoDB
+mongoose.connect(
+  process.env.MONGODB_URI,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  err => {
+    if (err) {
+      console.log(`Error: ${e}`);
+    } else {
+      console.log('Connected to Atlas Database');
+    }
+  }
+);
 
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "dist")));
+// Middle for static assets
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use(
-  "/dist/bundle",
-  expressStaticGzip(path.join(__dirname, "dist/bundle"), {
+  '/dist/bundle',
+  expressStaticGzip(path.join(__dirname, 'dist/bundle'), {
     enableBrotli: true,
-    orderPreference: ["br", "gz"],
-    setHeaders: function(res, path) {
-      res.setHeader("Cache-Control", "public, max-age=31536000");
-    }
+    orderPreference: ['br', 'gz'],
+    setHeaders(res, path) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000');
+    },
   })
 );
 
-app.set("views", path.join(__dirname, "./server/views"));
-app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, './server/views'));
+app.set('view engine', 'ejs');
 
-if (process.env.NODE_ENV === "development") {
-  var webpack = require("webpack");
-  var webpackConfig = require("./webpack.config");
-  var compiler = webpack(webpackConfig);
+if (process.env.NODE_ENV === 'development') {
+  const webpack = require('webpack');
+  const webpackConfig = require('./webpack.config');
+  const compiler = webpack(webpackConfig);
 
   app.use(
-    require("webpack-dev-middleware")(compiler, {
+    require('webpack-dev-middleware')(compiler, {
       noInfo: true,
-      publicPath: webpackConfig.output.publicPath
+      publicPath: webpackConfig.output.publicPath,
     })
   );
 
-  app.use(require("webpack-hot-middleware")(compiler));
+  app.use(require('webpack-hot-middleware')(compiler));
 }
 
-app.use("/users", require("./server/routes/users"));
-app.use("/image", require("./server/routes/image"));
-app.use(require("./server/routes/index"));
+app.use('/users', require('./server/routes/users'));
+app.use('/image', require('./server/routes/image'));
+app.use(require('./server/routes/index'));
 
-// Creating http server
-const server = http.createServer(app);
-
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`server is running on http://localhost:${port}`);
 });

@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Main from "./Main";
-import Upload from "./Upload";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Main from './Main';
+import Upload from './Upload';
 
 const Header = props => {
   const isAuthenticated = useSelector(
@@ -12,7 +12,7 @@ const Header = props => {
     <>
       <div>
         <Link to="/">
-          <i className="fas fa-home"></i>
+          <i className="fas fa-home" />
         </Link>
       </div>
       <div>{isAuthenticated ? <Upload /> : <Main />}</div>
