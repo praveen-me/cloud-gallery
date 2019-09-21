@@ -8,9 +8,7 @@ const expressStaticGzip = require("express-static-gzip");
 
 require("dotenv").config();
 
-const port = 8000 || process.env.PORT;
-
-console.log(process.env.MONGOB_URI);
+const port = 3001 || process.env.PORT;
 
 mongoose.connect(process.env.MONGOB_URI, { useNewUrlParser: true });
 // On successfull connection

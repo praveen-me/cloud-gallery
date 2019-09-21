@@ -1,38 +1,29 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Protected from './Protected';
-import Public from './Public';
-import actions from '../actions/user.action';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
+import Protected from "./Protected";
+import Public from "./Public";
+import actions from "../actions/user.action";
 
-class App extends Component {
-	
-	componentDidMount() {
-		const { isAuthenticated } = this.props;
-		if (isAuthenticated) {
-			this.props.dispatch(actions.verifyUser((success, message) => {
-				if (!success) {
-					window.location.href = '/login';
-				}
-			}));
-		}
-	}
-	
-	render() {
-		const { isAuthenticated } = this.props;
-		return (
-			<div>
-				{
-					isAuthenticated ? <Protected /> : <Public />
-				}
-			</div>
-		)
-	}
-}
+const App = () => {
+  const isAuthenticated = useSelector(
+    state => state.userReducer.isAuthenticated
+  );
+  const dispatch = useDispatch();
 
-const mapStateToProps = (state) => {
-	return {
-		isAuthenticated: state.userReducer.isAuthenticated
-	}
-}
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(
+        actions.verifyUser((success, message) => {
+          if (!success) {
+            window.location.href = "/login";
+          }
+        })
+      );
+    }
+  }, []);
 
-export default connect(mapStateToProps)(App);
+  return isAuthenticated ? <Protected /> : <Public />;
+};
+
+export default App;

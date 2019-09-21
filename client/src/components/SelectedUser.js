@@ -1,30 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import actions from '../actions/user.action';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import actions from "../actions/user.action";
 
-class SelectedUser extends Component {
+const SelectedUser = ({ match }) => {
+  const images = useSelector(state => state.imgReducer.images);
+  const dispatch = useDispatch();
 
-  componentDidMount = () => {
-    this.props.dispatch(actions.getImagesOfUser(this.props.match.params.id))
-  }
+  useEffect(() => {
+    dispatch(actions.getImagesOfUser(match.params.id));
+  }, []);
 
-  render() {
-    const { images } = this.props;
-		return (
-			<div className="image-wrapper">
-				{
-					images ? images.map((image, index) => <img src={image} key={index} alt=""/>
-					) : 'Loading...'
-				}
-			</div>
-		);
-	}
-}
+  return (
+    <div className="image-wrapper">
+      {images
+        ? images.map((image, index) => <img src={image} key={index} alt="" />)
+        : "Loading..."}
+    </div>
+  );
+};
 
-const mapStateToProps = (state) => {
-  return {
-    images: state.imgReducer.images
-  }
-}
-
-export default connect(mapStateToProps)(SelectedUser);
+export default SelectedUser;

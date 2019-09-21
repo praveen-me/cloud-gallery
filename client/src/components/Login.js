@@ -1,59 +1,73 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import actions from '../actions/user.action';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import actions from "../actions/user.action";
 
-class Login extends Component {
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
 
-  state = {
-    email: '',
-		password: '',
-		message: ''
-  }
+  const handleChange = ({ target: { name, value } }) => {
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    } else {
+      setMessage(value);
+    }
+  };
 
-  handleChange = ({target: { name, value }}) => {
-    this.setState({
-      [name]: value
-    })
-  }
+  const handleSubmit = e => {
+    e.preventDefault();
+    const data = { email, password };
 
-  handleSubmit = (e) => {
-		e.preventDefault();
-		const { email, password } = this.state;
-		const data = { email, password };
-		if (!email && !password) {
-			return this.setState({
-				message: 'Input your credentials :)'
-			})
-		}
-    this.props.dispatch(actions.loginUser(data, (success) => {
-			if (success) {
-				window.location.href = '/';
-			} else {
-				this.setState({
-					message: 'User not found'
-				})
-			}
-		}))
-  }
+    if (!email || !password) {
+      return setMessage({
+        message: "Input your credentials :)"
+      });
+    }
+    dispatch(
+      actions.loginUser(data, success => {
+        if (success) {
+          window.location.href = "/";
+        } else {
+          setMessage({
+            message: "User not found"
+          });
+        }
+      })
+    );
+  };
 
-  render() {
-    return (
-			<div className="signup-wrapper">
-				<form onSubmit={this.handleSubmit}>
-					<input type="email" name="email" placeholder="email" onChange={this.handleChange} />
-					<input type="password" name="password" placeholder="password" onChange={this.handleChange} />
-					<div className='signup-btn-wrapper'>
-						<input type="submit" value="Login" />
-					</div>
-					<div className='signup-info'>
-						Need an account? <Link to='/register'>Signup</Link>
-					</div>
-					<div className="message">{this.state.message}</div>
-				</form>
-			</div>
-    )
-  }
-}
+  return (
+    <div className="signup-wrapper">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          name="email"
+          placeholder="email"
+          onChange={handleChange}
+          value={email}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="password"
+          onChange={handleChange}
+          value={password}
+        />
+        <div className="signup-btn-wrapper">
+          <input type="submit" value="Login" />
+        </div>
+        <div className="signup-info">
+          Need an account? <Link to="/register">Signup</Link>
+        </div>
+        <div className="message">{message.message}</div>
+      </form>
+    </div>
+  );
+};
 
-export default connect(null)(Login);
+export default Login;

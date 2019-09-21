@@ -1,61 +1,83 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import actions from '../actions/user.action';
+import React, { Component, useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import actions from "../actions/user.action";
 
-class Signup extends Component {
+const Signup = ({ history }) => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
 
-  state = {
-    username: '',
-    email: '',
-		password: '',
-		message: ''
-  }
+  const handleChange = ({ target: { name, value } }) => {
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    } else if (name === "message") {
+      setMessage(value);
+    } else {
+      setUsername(value);
+    }
+  };
 
-  handleChange = ({target: { name, value }}) => {
-    this.setState({
-      [name]: value
-    })
-  }
+  const handleSubmit = e => {
+    e.preventDefault();
+    const data = { username, email, password };
+    if (!username || !email || !password) {
+      setMessage({
+        message: "Input your credentials :)"
+      });
+      return;
+    }
+    dispatch(
+      actions.createUser(data, success => {
+        if (success) {
+          history.push("/login");
+        } else {
+          setMessage({
+            message: "Internal server error"
+          });
+        }
+      })
+    );
+  };
 
-  handleSubmit = (e) => {
-		e.preventDefault();
-		const { username, email, password } = this.state;
-		const data = { username, email, password };
-		if (!username && !email && !password) {
-			return this.setState({
-				message: 'Input your credentials :)'
-			})
-		}
-    this.props.dispatch(actions.createUser(data, (success) => {
-			if (success) {
-				this.props.history.push('/login');
-			} else {
-				this.setState({
-					message: 'Internal server error'
-				})
-			}
-		}))
-  }
+  return (
+    <div className="signup-wrapper">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="username"
+          placeholder="username"
+          onChange={handleChange}
+          value={username}
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="email"
+          onChange={handleChange}
+          value={email}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="password"
+          onChange={handleChange}
+          value={password}
+        />
+        <div className="signup-btn-wrapper">
+          <input type="submit" value="Signup" />
+        </div>
+        <div className="signup-info">
+          Already an account? <Link to="/login">Login</Link>
+        </div>
+        <div className="message">{message.message}</div>
+      </form>
+    </div>
+  );
+};
 
-  render() {
-    return (
-			<div className="signup-wrapper">
-				<form onSubmit={this.handleSubmit}>
-					<input type="text" name="username" placeholder="username" onChange={this.handleChange} />
-					<input type="email" name="email" placeholder="email" onChange={this.handleChange} />
-					<input type="password" name="password" placeholder="password" onChange={this.handleChange} />
-					<div className='signup-btn-wrapper'>
-						<input type="submit" value="Signup" />
-					</div>
-					<div className='signup-info'>
-						Already an account? <Link to='/login'>Login</Link>
-					</div>
-					<div className="message">{this.state.message}</div>
-				</form>
-			</div>
-    )
-  }
-}
-
-export default connect(null)(Signup);
+export default Signup;

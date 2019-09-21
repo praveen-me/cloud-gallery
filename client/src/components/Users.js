@@ -1,39 +1,35 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import actions from '../actions/user.action';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import actions from "../actions/user.action";
 
-class Users extends Component {
+const Users = () => {
+  const users = useSelector(state => state.userReducer.users) || [];
+  const dispatch = useDispatch();
 
-  componentDidMount = () => {
-    this.props.dispatch(actions.getUsers());
-  }
+  useEffect(() => {
+    dispatch(actions.getUsers());
+  }, []);
 
-  render() {
-    const { users } = this.props;
-    return (
-      <div className='users-wrapper'>
-        {
-          users ? users.map(user => {
+  return (
+    <div className="users-wrapper">
+      {users
+        ? users.map(user => {
             return (
-              <div key={user._id} className='user-card'>
+              <div key={user._id} className="user-card">
                 <p>
-                  <span>Name</span> - <Link to={`/users/${user._id}`}>{user.username}</Link>
+                  <span>Name</span> -{" "}
+                  <Link to={`/users/${user._id}`}>{user.username}</Link>
                 </p>
-                <p><span>Email</span> - {user.email}</p>
+                <p>
+                  <span>Email</span> - {user.email}
+                </p>
               </div>
-            )
-          }) : 'Loading...'
-        }
-      </div>
-    )
-  }
-}
+            );
+          })
+        : "Loading..."}
+    </div>
+  );
+};
 
-const mapStateToProps = (state) => {
-  return {
-    users: state.userReducer.users || []
-  }
-}
-
-export default connect(mapStateToProps)(Users);
+export default Users;
