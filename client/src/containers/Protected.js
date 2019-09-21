@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-import Dashboard from '../components/Dashboard';
 import Header from './Header';
-import UploadImage from '../components/UploadImage';
-import Users from '../components/Users';
-import SelectedUser from '../components/SelectedUser';
+
+const Dashboard = lazy(() => import('../components/Dashboard'));
+const UploadImage = lazy(() => import('../components/UploadImage'));
+const Users = lazy(() => import('../components/Users'));
+const SelectedUser = lazy(() => import('../components/SelectedUser'));
 
 const Protected = () => (
   <Router>
@@ -13,10 +13,12 @@ const Protected = () => (
       <Header />
     </div>
     <Switch>
-      <Route exact path="/" component={Dashboard} />
-      <Route exact path="/upload" component={UploadImage} />
-      <Route exact path="/users" component={Users} />
-      <Route exact path="/users/:id" component={SelectedUser} />
+      <Suspense fallback="loading">
+        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/upload" component={UploadImage} />
+        <Route exact path="/users" component={Users} />
+        <Route exact path="/users/:id" component={SelectedUser} />
+      </Suspense>
     </Switch>
   </Router>
 );

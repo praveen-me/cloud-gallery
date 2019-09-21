@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Protected from './Protected';
 import Public from './Public';
-import actions from '../actions/user.action';
+import actions from '../store/actions/user.action';
 
 const App = () => {
   const isAuthenticated = useSelector(

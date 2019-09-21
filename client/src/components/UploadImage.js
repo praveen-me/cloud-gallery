@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import imgActions from '../actions/image.action';
+import imgActions from '../store/actions/image.action';
 import keys from '../key';
 
 const UploadImage = ({ history }) => {
@@ -8,11 +8,9 @@ const UploadImage = ({ history }) => {
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
-  const handleFile = event => {
+  const handleFile = (event) => {
     const photo = event.target.files[0];
-    const sendImg = str => {
-      str ? setImage(str) : null;
-    };
+    const sendImg = (str) => setImage(str);
 
     // file conversion to base64 using FileReader fn
     const reader = new FileReader();
@@ -22,7 +20,7 @@ const UploadImage = ({ history }) => {
     reader.readAsDataURL(photo);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const cloudData = { file: image, upload_preset: keys.UPLOAD_PRESET };
@@ -31,7 +29,7 @@ const UploadImage = ({ history }) => {
       imgActions.cloudinaryImgUpload(cloudData, (success, img) => {
         if (success) {
           dispatch(
-            imgActions.uploadImage(img.secure_url, done => {
+            imgActions.uploadImage(img.secure_url, (done) => {
               if (done) {
                 history.push('/');
               }

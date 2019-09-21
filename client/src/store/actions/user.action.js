@@ -1,3 +1,5 @@
+import { USER_LOGIN_SUCCESS, GET_USERS_SUCCESS, GET_IMAGES_OF_USER } from '../types';
+
 const actions = {
   /**
    * Post request for creating user
@@ -35,7 +37,7 @@ const actions = {
           localStorage.setItem('user', JSON.stringify(user));
 
           dispatch({
-            type: 'USER_LOGIN_SUCCESS',
+            type: USER_LOGIN_SUCCESS,
             user,
           });
           cb(true);
@@ -77,7 +79,7 @@ const actions = {
       .then((users) => {
         if (users.msg) {
           dispatch({
-            type: 'GET_USERS_SUCCESS',
+            type: GET_USERS_SUCCESS,
             users: users.users,
           });
         }
@@ -99,7 +101,7 @@ const actions = {
       .then((images) => {
         if (images.msg) {
           dispatch({
-            type: 'GET_IMAGES_OF_USER',
+            type: GET_IMAGES_OF_USER,
             user: images.user,
           });
         }

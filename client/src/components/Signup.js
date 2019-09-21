@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import actions from '../actions/user.action';
+import actions from '../store/actions/user.action';
 
 const Signup = ({ history }) => {
   const [username, setUsername] = useState('');

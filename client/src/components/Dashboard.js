@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import imgActions from '../actions/image.action';
+import imgActions from '../store/actions/image.action';
 
 const Dashboard = () => {
   const images = useSelector((state) => state.imgReducer.images) || [];
@@ -9,7 +9,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(imgActions.getImage());
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="image-wrapper">

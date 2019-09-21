@@ -1,8 +1,9 @@
-import keys from '../key';
+import keys from '../../key';
+import { GET_IMAGE_SUCCESS } from '../types';
 
 const imgActions = {
   // making request to server with image url which I am getting from cloudinary
-  uploadImage: (data, cb) => (dispatch) => {
+  uploadImage: (data, cb) => () => {
     fetch('/image/upload', {
       method: 'POST',
       headers: {
@@ -21,7 +22,9 @@ const imgActions = {
       });
   },
 
-  // Uploading image to cloudinary
+  /**
+   * Upload images to cloudinary
+   */
   cloudinaryImgUpload: (data, cb) => (dispatch) => {
     fetch(keys.IMAGE_UPLOAD_URL, {
       method: 'POST',
@@ -52,7 +55,7 @@ const imgActions = {
       .then((image) => {
         if (image.msg) {
           dispatch({
-            type: 'GET_IMAGE_SUCCESS',
+            type: GET_IMAGE_SUCCESS,
             image: image.image,
           });
         }

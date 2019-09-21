@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import actions from '../actions/user.action';
+import actions from '../store/actions/user.action';
 
 const SelectedUser = ({ match }) => {
-  const images = useSelector(state => state.imgReducer.images);
+  const images = useSelector((state) => state.imgReducer.images);
   const dispatch = useDispatch();
 
   useEffect(() => {

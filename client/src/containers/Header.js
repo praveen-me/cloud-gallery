@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import Main from './Main';
 import Upload from './Upload';
 
-const Header = props => {
+const Header = (props) => {
   const isAuthenticated = useSelector(
-    state => state.userReducer.isAuthenticated
+    (state) => state.userReducer.isAuthenticated
   );
   return (
     <>

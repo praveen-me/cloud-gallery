@@ -1,3 +1,5 @@
+import { USER_LOGIN_SUCCESS, GET_USERS_SUCCESS } from '../types';
+
 const initState = {
   currentUser: JSON.parse(localStorage.getItem('user')) || null,
   currentToken: localStorage.getItem('token') || null,
@@ -7,7 +9,7 @@ const initState = {
 
 function userReducer(state = initState, action) {
   switch (action.type) {
-    case 'USER_LOGIN_SUCCESS': {
+    case USER_LOGIN_SUCCESS: {
       return {
         ...state,
         currentUser: action.user,
@@ -16,7 +18,7 @@ function userReducer(state = initState, action) {
       };
     }
 
-    case 'GET_USERS_SUCCESS': {
+    case GET_USERS_SUCCESS: {
       return {
         ...state,
         users: action.users,
