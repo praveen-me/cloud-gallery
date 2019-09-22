@@ -25,20 +25,21 @@ const Signup = ({ history }) => {
     const data = { username, email, password };
     if (!username || !email || !password) {
       setMessage({
-        message: 'Input your credentials :)',
+        message: 'Input your credentials 😁',
       });
       return;
     }
 
-    actions.createUser(data, (success) => {
-      if (success) {
-        history.push('/login');
-      } else {
+    actions.createUser(data)
+      .then((success) => {
+        if (success) {
+          history.push('/login');
+          return;
+        }
         setMessage({
           message: 'Internal server error',
         });
-      }
-    });
+      }).catch((e) => console.log(e));
   };
 
   return (

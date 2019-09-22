@@ -25,21 +25,13 @@ const UploadImage = ({ history }) => {
 
     const cloudData = { file: image, upload_preset: keys.UPLOAD_PRESET };
 
-    dispatch(
-      imgActions.cloudinaryImgUpload(cloudData, (success, img) => {
-        if (success) {
-          dispatch(
-            imgActions.uploadImage(img.secure_url, (done) => {
-              if (done) {
-                history.push('/');
-              }
-            })
-          );
-        } else {
-          setMessage(img.error);
+    dispatch(imgActions.cloudinaryImgUpload(cloudData))
+      .then((img) => dispatch(imgActions.uploadImage(img.secure_url)))
+      .then((done) => {
+        if (done) {
+          history.push('/');
         }
-      })
-    );
+      });
   };
 
   return (

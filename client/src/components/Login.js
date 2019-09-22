@@ -28,8 +28,8 @@ const Login = () => {
         message: 'Input your credentials :)',
       });
     }
-    dispatch(
-      actions.loginUser(data, (success) => {
+    dispatch(actions.loginUser(data))
+      .then((success) => {
         if (success) {
           window.location.href = '/';
         } else {
@@ -37,8 +37,7 @@ const Login = () => {
             message: 'User not found',
           });
         }
-      })
-    );
+      });
   };
 
   return (
@@ -63,7 +62,6 @@ const Login = () => {
         </div>
         <div className="signup-info">
           Need an account?
-          {' '}
           <Link to="/register">Signup</Link>
         </div>
         <div className="message">{message.message}</div>

@@ -4,51 +4,64 @@ const actions = {
   /**
    * Post request for creating user
    */
-  createUser: (data, cb) => () => {
-    fetch(`/users/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((user) => {
-        if (user.msg) cb(true);
-        else cb(false);
+  createUser: async (data) => {
+    try {
+      const response = await fetch(`/users/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
+
+      const json = await response.json();
+
+      if (json.msg) {
+        return Promise.resolve(true);
+      }
+
+      throw new Error('User not found');
+    } catch (e) {
+      return Promise.reject(e);
+    }
   },
 
   /**
    * Action creator for making request for logging user
    */
-  loginUser: (data, cb) => (dispatch) => {
-    fetch('/users/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((user) => {
-        if (user.msg) {
-          localStorage.setItem('token', user.token);
-          localStorage.setItem('user', JSON.stringify(user));
-
-          dispatch({
-            type: USER_LOGIN_SUCCESS,
-            user,
-          });
-          cb(true);
-        } else cb(false);
+  loginUser: (data) => async (dispatch) => {
+    try {
+      const response = await fetch('/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
+
+      const userData = await response.json();
+
+      if (userData.msg) {
+        localStorage.setItem('token', userData.token);
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        dispatch({
+          type: USER_LOGIN_SUCCESS,
+          user: userData,
+        });
+        return Promise.resolve(true);
+      }
+
+      throw new Error('User is not valid');
+    } catch (e) {
+      return Promise.reject(e);
+    }
   },
 
   /**
    * Action user for verifying user when a token is present in local storage
    */
-  verifyUser: (cb) => () => {
+  verifyUser: (cb) => {
     fetch('/users/verify', {
       headers: {
         'Content-Type': 'application/json',
@@ -68,22 +81,28 @@ const actions = {
   /**
    * Action creator for getting all user's data
    */
-  getUsers: () => (dispatch) => {
-    fetch('/users/list', {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((users) => {
-        if (users.msg) {
-          dispatch({
-            type: GET_USERS_SUCCESS,
-            users: users.users,
-          });
-        }
+  getUsers: () => async (dispatch) => {
+    try {
+      const response = await fetch('/users/list', {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: localStorage.token,
+        },
       });
+
+      const users = await response.json();
+
+      if (users.msg) {
+        dispatch({
+          type: GET_USERS_SUCCESS,
+          users: users.users,
+        });
+        return Promise.resolve(true);
+      }
+      throw new Error('Users not found');
+    } catch (e) {
+      return Promise.reject(e);
+    }
   },
 
   /**
