@@ -23,7 +23,7 @@ module.exports = {
   },
 
   // Login a user and expects user credentials in req.body
-  login: (req, res, next) => {
+  login: (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
         return res.status(401).json({ err: 'User not found.' });
@@ -75,7 +75,7 @@ module.exports = {
   },
 
   // Getting lists of users
-  getUsers: (req, res) => {
+  getUsers: (_, res) => {
     User.find({})
       .select('-password')
       .exec((err, users) => {
@@ -84,9 +84,12 @@ module.exports = {
             err: 'Internal server error',
           });
         }
+
+        const newUsers = users.filter((user) => user._id.toString() !== res.locals.userId.id);
+
         return res.status(200).json({
           msg: 'Getting users',
-          users,
+          users: newUsers,
         });
       });
   },

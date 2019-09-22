@@ -28,7 +28,7 @@ module.exports = {
   },
 
   // getting image from db
-  getImage: (req, res) => {
+  getImage: (_, res) => {
     const { id } = res.locals.userId;
     User.findOne({ _id: id }, (err, user) => {
       if (err) {

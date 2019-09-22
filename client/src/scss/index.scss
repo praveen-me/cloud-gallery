@@ -56,7 +56,7 @@ body {
     input[type="password"] {
       &:active,
       &:focus {
-        border: 1px solid #ee6e62;
+        border: 1px solid #014640;
       }
     }
     .signup-btn-wrapper {
@@ -65,13 +65,13 @@ body {
         height: 2.5rem;
         width: 4.5rem;
         cursor: pointer;
-        background: #ee6e62;
-        color: aliceblue;
-        border: 1px solid #ee6e62;
+        background: #014640;
+        color: #fff;
+        border: 2px solid transparent;
         &:hover {
           background: #fff;
-          border: 1px solid #888;
-          color: #ee6e62;
+          border: 2px solid #014640;
+          color: #014640;
         }
       }
     }
@@ -85,7 +85,7 @@ body {
     }
     .message {
       text-align: center;
-      color: #ee6e62;
+      color: #014640;
       font-size: 1.4rem;
     }
   }
@@ -112,7 +112,7 @@ body {
   align-items: center;
   padding: 1rem;
   div {
-    color: #ee6e62;
+    color: #014640;
     cursor: pointer;
   }
 }

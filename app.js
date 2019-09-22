@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const express = require('express');
 
 const app = express();
@@ -17,7 +18,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
-  err => {
+  (err) => {
     if (err) {
       console.log(`Error: ${e}`);
     } else {
@@ -38,7 +39,7 @@ app.use(
   expressStaticGzip(path.join(__dirname, 'dist/bundle'), {
     enableBrotli: true,
     orderPreference: ['br', 'gz'],
-    setHeaders(res, path) {
+    setHeaders(res) {
       res.setHeader('Cache-Control', 'public, max-age=31536000');
     },
   })

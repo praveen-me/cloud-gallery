@@ -4,7 +4,7 @@ const router = express.Router();
 const hash = 'bundle';
 
 /* GET home page. */
-router.get('*', (req, res, next) => {
+router.get('*', (_, res) => {
   const cssPath = process.env.NODE_ENV === 'production'
     ? `bundle/${hash}.css`
     : 'static/bundle.css';
