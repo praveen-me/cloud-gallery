@@ -40,9 +40,8 @@ const UploadImage = ({ history }) => {
         onSubmit={handleSubmit}
       >
         <input type="file" name="image" onChange={handleFile} />
-        <div className="signup-btn-wrapper">
-          <input type="submit" value="Submit" />
-        </div>
+
+        <input type="submit" value="Submit" className="submit-btn upload-btn" />
       </form>
       <div className="message">{message}</div>
     </div>

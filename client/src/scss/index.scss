@@ -15,7 +15,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ee6e62;
+  background: #014640;
   height: 3rem;
   padding: 0 1rem;
   a {
@@ -141,5 +141,45 @@ body {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
       0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding: 1rem;
+  }
+  a {
+    text-decoration: none;
+    color: #014640;
+    font-weight: bold;
+  }
+}
+
+.btn-normal {
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  margin: 0 1rem;
+}
+
+.submit-btn {
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.upload-btn {
+  width: 180px;
+  background: #014640;
+  padding: 12px 8px;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  margin: 2rem auto;
+  display: inline-block;
+  text-align: center;
+  border: 2px solid transparent;
+  &:hover {
+    background: #fff;
+    color: #014640;
+    border: 2px solid #014640;
   }
 }

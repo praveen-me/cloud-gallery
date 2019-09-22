@@ -10,10 +10,7 @@ const Upload = () => {
   return (
     <div className="upload">
       <Link to="/users">Users list</Link>
-      <Link to="/upload">
-        <i className="fas fa-file-upload" />
-      </Link>
-      <button type="button" onClick={handleLogout}>Logout</button>
+      <button type="button" onClick={handleLogout} className="btn-normal">Logout</button>
     </div>
   );
 };

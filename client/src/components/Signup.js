@@ -39,7 +39,9 @@ const Signup = ({ history }) => {
         setMessage({
           message: 'Internal server error',
         });
-      }).catch((e) => console.log(e));
+      }).catch(() => setMessage({
+        message: 'Unable to create account. Please try again.',
+      }));
   };
 
   return (
