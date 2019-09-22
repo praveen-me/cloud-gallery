@@ -15,11 +15,10 @@ const Protected = () => (
     </div>
     <Switch>
       <Suspense fallback={<Loader />}>
-        <Route exact path="/current-user/:id" component={SelectedUser} />
+        <Route exact path="/current/:id" component={SelectedUser} />
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/upload" component={UploadImage} />
         <Route exact path="/users" component={Users} />
-        {/* <Route exact component={() => <p>404</p>} /> */}
       </Suspense>
     </Switch>
   </Router>

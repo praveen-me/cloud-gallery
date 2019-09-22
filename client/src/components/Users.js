@@ -22,7 +22,7 @@ const Users = () => {
           <div key={user._id} className="user-card">
             <p>
               <span>Name - </span>
-              <Link to={`/current-user/${user._id}`}>{user.username}</Link>
+              <Link to={`/current/${user._id}`}>{user.username}</Link>
             </p>
             <p>
               <span>Email - </span>
