@@ -11,7 +11,8 @@ const SelectedUser = ({ match }) => {
   useEffect(() => {
     dispatch(actions.getImagesOfUser(match.params.id))
       .then(() => setIsLoading(false));
-  }, [dispatch, match.params.id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     isLoading ? <Loader /> : (

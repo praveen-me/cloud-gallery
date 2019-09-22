@@ -46,11 +46,13 @@ module.exports = {
 
   verifyUser: (req, res) => {
     const token = req.headers.authorization;
+
     if (!token) {
       return res.status(401).json({
         err: 'Unauthorized user',
       });
     }
+
     jwt.verify(token, process.env.secret, (error, decode) => {
       if (error) {
         return res.status(403).json({

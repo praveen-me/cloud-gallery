@@ -61,7 +61,7 @@ const actions = {
   /**
    * Action user for verifying user when a token is present in local storage
    */
-  verifyUser: async (cb) => {
+  verifyUser: async () => {
     try {
       const response = await fetch('/users/verify', {
         headers: {
