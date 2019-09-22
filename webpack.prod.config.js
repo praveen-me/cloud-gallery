@@ -37,7 +37,7 @@ module.exports = {
 	output: {
 		filename: "bundle.js",
 		path: __dirname + "/dist/bundle/",
-		publicPath: "/static/"
+		publicPath: "/dist/bundle/"
 	},
 	plugins: [
 		new webpack.DefinePlugin({
