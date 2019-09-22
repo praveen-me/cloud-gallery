@@ -12,7 +12,7 @@ router.get('*', (_, res) => {
     ? `bundle/${hash}.js`
     : 'static/bundle.js';
 
-  res.render('index', { title: 'Express', cssPath, jsPath });
+  res.render('index', { title: 'Cloud Gallery', cssPath, jsPath });
 });
 
 module.exports = router;

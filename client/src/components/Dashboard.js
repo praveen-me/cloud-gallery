@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -6,13 +7,14 @@ import Loader from './Loader';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
+
   const images = useSelector((state) => state.imgReducer.images) || [];
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(imgActions.getImage())
       .then(() => setIsLoading(false));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

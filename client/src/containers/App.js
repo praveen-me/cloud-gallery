@@ -16,13 +16,6 @@ const App = () => {
           window.location.href = '/login';
         }
       });
-    } else {
-      if (window.location.href.includes('login')) {
-        return;
-      }
-      window.location.href = '/login';
-      // eslint-disable-next-line no-useless-return
-      return;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
