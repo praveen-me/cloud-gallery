@@ -20,7 +20,7 @@ mongoose.connect(
   },
   (err) => {
     if (err) {
-      console.log(`Error: ${e}`);
+      console.log(`Error: ${err}`);
     } else {
       console.log('Connected to Atlas Database');
     }
