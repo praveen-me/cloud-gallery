@@ -27,11 +27,8 @@ const UploadImage = ({ history }) => {
 
     dispatch(imgActions.cloudinaryImgUpload(cloudData))
       .then((img) => dispatch(imgActions.uploadImage(img.secure_url)))
-      .then((done) => {
-        if (done) {
-          history.push('/');
-        }
-      });
+      .then(() => history.push('/'))
+      .catch(() => setMessage('Something went wrong. Please upload again!!'));
   };
 
   return (

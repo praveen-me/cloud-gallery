@@ -11,7 +11,7 @@ const App = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      actions.verifyUser((success) => {
+      actions.verifyUser().then((success) => {
         if (!success) {
           window.location.href = '/login';
         }
@@ -25,7 +25,7 @@ const App = () => {
       return;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  }, []);
 
   return isAuthenticated ? <Protected /> : <Public />;
 };

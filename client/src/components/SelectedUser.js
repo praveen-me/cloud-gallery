@@ -1,21 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../store/actions/user.action';
+import Loader from './Loader';
 
 const SelectedUser = ({ match }) => {
-  const images = useSelector((state) => state.imgReducer.images);
+  const [isLoading, setIsLoading] = useState(true);
+  const images = useSelector((state) => state.imgReducer.images) || [];
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.getImagesOfUser(match.params.id));
+    dispatch(actions.getImagesOfUser(match.params.id))
+      .then(() => setIsLoading(false));
   }, [dispatch, match.params.id]);
 
   return (
-    <div className="image-wrapper">
-      {images
-        ? images.map((image, index) => <img src={image} key={index} alt="" />)
-        : 'Loading...'}
-    </div>
+    isLoading ? <Loader /> : (
+      <div className="image-wrapper">
+        {
+          images.length ? images.map((image, index) => <img src={image} key={index} alt="" />) : <p>No Images Found...</p>
+        }
+      </div>
+    )
   );
 };
 

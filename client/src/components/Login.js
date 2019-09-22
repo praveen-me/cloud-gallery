@@ -32,12 +32,9 @@ const Login = () => {
       .then((success) => {
         if (success) {
           window.location.href = '/';
-        } else {
-          setMessage({
-            message: 'User not found',
-          });
         }
-      });
+      })
+      .catch(() => setMessage('User not found.'));
   };
 
   return (
@@ -64,7 +61,7 @@ const Login = () => {
           Need an account?
           <Link to="/register">Signup</Link>
         </div>
-        <div className="message">{message.message}</div>
+        <div className="message">{message}</div>
       </form>
     </div>
   );

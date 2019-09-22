@@ -61,21 +61,25 @@ const actions = {
   /**
    * Action user for verifying user when a token is present in local storage
    */
-  verifyUser: (cb) => {
-    fetch('/users/verify', {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((user) => {
-        if (user.msg) {
-          cb(true, user.msg);
-        } else {
-          cb(false, user.err);
-        }
+  verifyUser: async (cb) => {
+    try {
+      const response = await fetch('/users/verify', {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: localStorage.token,
+        },
       });
+
+      const data = await response.json();
+
+      if (data.msg) {
+        return Promise.resolve(true);
+      }
+
+      throw new Error('User is not valid');
+    } catch (e) {
+      return Promise.reject(e);
+    }
   },
 
   /**
@@ -108,23 +112,28 @@ const actions = {
   /**
    * Get all images of a particular user
    */
-  getImagesOfUser: (id) => (dispatch) => {
-    console.log(id);
-    fetch(`/users/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((images) => {
-        if (images.msg) {
-          dispatch({
-            type: GET_IMAGES_OF_USER,
-            user: images.user,
-          });
-        }
+  getImagesOfUser: (id) => async (dispatch) => {
+    try {
+      const response = await fetch(`/users/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: localStorage.token,
+        },
       });
+
+      const images = await response.json();
+
+      if (images.msg) {
+        dispatch({
+          type: GET_IMAGES_OF_USER,
+          user: images.user,
+        });
+        return Promise.resolve(true);
+      }
+      // throw new Error('Users not found');
+    } catch (e) {
+      return Promise.reject(e);
+    }
   },
 };
 
