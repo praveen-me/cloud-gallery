@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Middle for static assets
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist/')));
 
 app.use(
   '/dist/bundle',

@@ -4,10 +4,10 @@ const router = express.Router();
 const hash = 'bundle';
 
 const cssPath = process.env.NODE_ENV === 'production'
-  ? `bundle/${hash}.css`
+  ? `/bundle/${hash}.css`
   : '/static/bundle.css';
 const jsPath = process.env.NODE_ENV === 'production'
-  ? `bundle/${hash}.js`
+  ? `/bundle/${hash}.js`
   : '/static/bundle.js';
 
 /* GET home page. */
